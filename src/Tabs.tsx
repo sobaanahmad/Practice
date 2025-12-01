@@ -6,17 +6,13 @@ import UploadDocuments from "./UploadDocumentsForm";
 
 export function TabsTop() {
   const [activeTab, setActiveTab] = useState("contact-information");
-
-  // Define the order of tabs
   const tabOrder = ["contact-information", "expertise", "upload-documents"];
-
   const handleNext = () => {
     const currentIndex = tabOrder.indexOf(activeTab);
     if (currentIndex < tabOrder.length - 1) {
       setActiveTab(tabOrder[currentIndex + 1]);
     }
   };
-
   const handleBack = () => {
     const currentIndex = tabOrder.indexOf(activeTab);
     if (currentIndex > 0) {
@@ -38,15 +34,12 @@ export function TabsTop() {
             Upload Documents
           </TabsTrigger>
         </TabsList>
-
         <TabsContent value="contact-information">
           <ContactInformationForm onNext={handleNext} />
         </TabsContent>
-
         <TabsContent value="expertise">
           <ExpertiseForm onNext={handleNext} onBack={handleBack} />
         </TabsContent>
-
         <TabsContent value="upload-documents">
           <UploadDocuments onBack={handleBack} onNext={handleNext}/>
         </TabsContent>
