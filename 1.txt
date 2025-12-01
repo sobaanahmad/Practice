@@ -1,0 +1,9 @@
+<Button className='absolute right-22 top-6 bg-white text-[#5B616E] cursor-pointer hover:bg-white'>
+      <ShoppingCart />
+    </Button>
+    <Button className='absolute right-32 top-6 bg-white text-[#5B616E] cursor-pointer hover:bg-white'>
+      <Search />
+    </Button>
+    <AvatarDemo/>
+    <SearchBar/>
+    <Sidebar />
