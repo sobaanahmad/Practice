@@ -7,12 +7,14 @@ import UploadDocuments from "./UploadDocumentsForm";
 export function TabsTop() {
   const [activeTab, setActiveTab] = useState("contact-information");
   const tabOrder = ["contact-information", "expertise", "upload-documents"];
+  
   const handleNext = () => {
     const currentIndex = tabOrder.indexOf(activeTab);
     if (currentIndex < tabOrder.length - 1) {
       setActiveTab(tabOrder[currentIndex + 1]);
     }
   };
+
   const handleBack = () => {
     const currentIndex = tabOrder.indexOf(activeTab);
     if (currentIndex > 0) {
@@ -23,17 +25,19 @@ export function TabsTop() {
   return (
     <div className="w-full max-w-5xl mx-auto mt-5">
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="mb-4">
-          <TabsTrigger value="contact-information" className="font-normal cursor-pointer">
-            Contact Information
-          </TabsTrigger>
-          <TabsTrigger value="expertise" className="font-normal cursor-pointer">
-            Expertise
-          </TabsTrigger>
-          <TabsTrigger value="upload-documents" className="font-normal cursor-pointer">
-            Upload Documents
-          </TabsTrigger>
-        </TabsList>
+        <div className="flex justify-center mb-2">
+          <TabsList className="inline-flex gap-1">
+            <TabsTrigger value="contact-information" className="font-normal">
+              Contact Information
+            </TabsTrigger>
+            <TabsTrigger value="expertise" className="font-normal">
+              Expertise
+            </TabsTrigger>
+            <TabsTrigger value="upload-documents" className="font-normal">
+              Upload Documents
+            </TabsTrigger>
+          </TabsList>
+        </div>
         <TabsContent value="contact-information">
           <ContactInformationForm onNext={handleNext} />
         </TabsContent>
@@ -41,7 +45,7 @@ export function TabsTop() {
           <ExpertiseForm onNext={handleNext} onBack={handleBack} />
         </TabsContent>
         <TabsContent value="upload-documents">
-          <UploadDocuments onBack={handleBack} onNext={handleNext}/>
+          <UploadDocuments onBack={handleBack} onNext={handleNext} />
         </TabsContent>
       </Tabs>
     </div>
