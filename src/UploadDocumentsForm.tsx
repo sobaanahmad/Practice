@@ -9,7 +9,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
 interface UploadDocumentsFormProps {
@@ -37,6 +36,7 @@ const UploadDocumentsForm: React.FC<UploadDocumentsFormProps> = ({
   );
 
   const [otherNames, setOtherNames] = useState<string[]>(Array(5).fill(""));
+  const [showErrors, setShowErrors] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const handleFileClick = (ref: React.RefObject<HTMLInputElement | null>) => {
     if (ref.current) ref.current.click();
@@ -67,8 +67,16 @@ const UploadDocumentsForm: React.FC<UploadDocumentsFormProps> = ({
     setOtherNames(newNames);
   };
 
-  const isFormValid = resumeFile && indemnityFile && certificatesFile;
-  
+  const isFormValid = !!resumeFile && !!indemnityFile && !!certificatesFile;
+
+  const handleNextStep = () => {
+    if (isFormValid) {
+      setIsDialogOpen(true);
+    } else {
+      setShowErrors(true);
+    }
+  };
+
   return (
     <div className="flex justify-center w-full">
       <div className="flex-1 p-6">
@@ -85,16 +93,22 @@ const UploadDocumentsForm: React.FC<UploadDocumentsFormProps> = ({
                 onClick={() => handleFileClick(resumeRef)}
                 className="w-40 h-40 bg-[#F7F8F8] rounded-lg flex flex-col justify-center items-center cursor-pointer hover:bg-gray-100"
               >
-                <img src="/upload.png" alt="Upload" className="w-6 h-6 mb-3" />
-                <p className="text-gray-600 text-center font-semibold mb-1">
+                <img src="/upload.png" className="w-6 h-6 mb-3" />
+                <p className="text-gray-600 font-semibold mb-1 text-center">
                   {resumeFile ? resumeFile.name : "Upload Doc."}
                 </p>
-                <p className="text-gray-400 text-center text-xs">
+                <p className="text-gray-400 text-xs text-center">
                   {resumeFile
                     ? resumeFile.name
                     : "Max document size allowed 50mb."}
                 </p>
               </div>
+              {showErrors && !resumeFile && (
+                <p className="text-red-500 text-sm mt-1">
+                  This document is required!
+                </p>
+              )}
+
               <Input
                 type="file"
                 ref={resumeRef}
@@ -110,16 +124,22 @@ const UploadDocumentsForm: React.FC<UploadDocumentsFormProps> = ({
                 onClick={() => handleFileClick(indemnityRef)}
                 className="w-40 h-40 bg-[#F7F8F8] rounded-lg flex flex-col justify-center items-center cursor-pointer hover:bg-gray-100"
               >
-                <img src="/upload.png" alt="Upload" className="w-6 h-6 mb-3" />
-                <p className="text-gray-600 text-center font-semibold mb-1">
+                <img src="/upload.png" className="w-6 h-6 mb-3" />
+                <p className="text-gray-600 font-semibold mb-1 text-center">
                   {indemnityFile ? indemnityFile.name : "Upload Doc."}
                 </p>
-                <p className="text-gray-400 text-center text-xs">
+                <p className="text-gray-400 text-xs text-center">
                   {indemnityFile
                     ? indemnityFile.name
                     : "Max document size allowed 50mb."}
                 </p>
               </div>
+              {showErrors && !indemnityFile && (
+                <p className="text-red-500 text-sm mt-1">
+                  This document is required!
+                </p>
+              )}
+
               <Input
                 type="file"
                 ref={indemnityRef}
@@ -135,16 +155,22 @@ const UploadDocumentsForm: React.FC<UploadDocumentsFormProps> = ({
                 onClick={() => handleFileClick(certificatesRef)}
                 className="w-40 h-40 bg-[#F7F8F8] rounded-lg flex flex-col justify-center items-center cursor-pointer hover:bg-gray-100"
               >
-                <img src="/upload.png" alt="Upload" className="w-6 h-6 mb-3" />
-                <p className="text-gray-600 text-center font-semibold mb-1">
+                <img src="/upload.png" className="w-6 h-6 mb-3" />
+                <p className="text-gray-600 font-semibold mb-1 text-center">
                   {certificatesFile ? certificatesFile.name : "Upload Doc."}
                 </p>
-                <p className="text-gray-400 text-center text-xs">
+                <p className="text-gray-400 text-xs text-center">
                   {certificatesFile
                     ? certificatesFile.name
                     : "Max document size allowed 50mb."}
                 </p>
               </div>
+              {showErrors && !certificatesFile && (
+                <p className="text-red-500 text-sm mt-1">
+                  This document is required!
+                </p>
+              )}
+
               <Input
                 type="file"
                 ref={certificatesRef}
@@ -166,7 +192,6 @@ const UploadDocumentsForm: React.FC<UploadDocumentsFormProps> = ({
               <Field className="w-3/5">
                 <Input
                   placeholder="Enter doc name"
-                  required
                   value={otherNames[index]}
                   onChange={(e) => handleOtherNameChange(e.target.value, index)}
                 />
@@ -175,12 +200,8 @@ const UploadDocumentsForm: React.FC<UploadDocumentsFormProps> = ({
                 onClick={() => handleFileClick(ref)}
                 className="w-40 h-10 rounded-lg flex flex-row gap-4 justify-center items-center cursor-pointer"
               >
-                <img
-                  src="/uploadblack.png"
-                  alt="Upload"
-                  className="w-10 h-10 mb-3 mt-1.5"
-                />
-                <p className="text-black text-center font-semibold mb-1">
+                <img src="/uploadblack.png" className="w-10 h-10 mb-3 mt-1.5" />
+                <p className="text-black font-semibold mb-1">
                   {otherFiles[index] ? otherFiles[index]?.name : "Upload Doc."}
                 </p>
               </div>
@@ -201,28 +222,21 @@ const UploadDocumentsForm: React.FC<UploadDocumentsFormProps> = ({
             >
               Go Back
             </button>
+            <button
+              type="button"
+              onClick={handleNextStep}
+              className="rounded-sm py-2.5 px-4 text-sm font-semibold text-white bg-[#0E9DD8] hover:bg-[#0b81b3] cursor-pointer"
+            >
+              Next Step
+            </button>
             <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-              <AlertDialogTrigger asChild>
-                <button
-                  type="button"
-                  disabled={!isFormValid}
-                  onClick={() => setIsDialogOpen(true)}
-                  className={`rounded-sm py-2.5 px-4 text-sm font-semibold text-white ${
-                    isFormValid
-                      ? "bg-[#0E9DD8] hover:bg-[#0b81b3] cursor-pointer"
-                      : "bg-gray-300 cursor-not-allowed"
-                  }`}
-                >
-                  Next Step
-                </button>
-              </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
                   <AlertDialogTitle>Profile Under Review</AlertDialogTitle>
                   <AlertDialogDescription>
                     Your profile is completed and under review process. You’ll
-                    be notified via your personal email address you’ve given,
-                    when any action is taken on your profile. Thank You!
+                    be notified via your personal email when any action is taken
+                    on your profile. Thank You!
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>

@@ -17,23 +17,23 @@ export function TabsTop() {
 
   const handleBack = () => {
     const currentIndex = tabOrder.indexOf(activeTab);
-    if (currentIndex > 0) {
+    if (currentIndex > 0) { 
       setActiveTab(tabOrder[currentIndex - 1]);
     }
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto mt-5">
+    <div className="w-full max-w-5xl mx-70 mt-5">
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <div className="flex justify-center mb-2">
           <TabsList className="inline-flex gap-1">
-            <TabsTrigger value="contact-information" className="font-normal">
+            <TabsTrigger value="contact-information" className="font-normal cursor-pointer">
               Contact Information
             </TabsTrigger>
-            <TabsTrigger value="expertise" className="font-normal">
+            <TabsTrigger value="expertise" className="font-normal cursor-pointer">
               Expertise
             </TabsTrigger>
-            <TabsTrigger value="upload-documents" className="font-normal">
+            <TabsTrigger value="upload-documents" className="font-normal cursor-pointer">
               Upload Documents
             </TabsTrigger>
           </TabsList>

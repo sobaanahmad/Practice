@@ -60,8 +60,13 @@ const ContactInformationForm: React.FC<ContactInformationFormProps> = ({
     regulatoryBody: "",
   });
 
+  const [touchedFields, setTouchedFields] = useState<{
+    [key: string]: boolean;
+  }>({});
+
   const updateField = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+    setTouchedFields((prev) => ({ ...prev, [field]: true }));
   };
 
   const handleClick = () => fileInputRef.current?.click();
@@ -71,27 +76,32 @@ const ContactInformationForm: React.FC<ContactInformationFormProps> = ({
     }
   };
 
-  const isFormValid =
-    formSchema.safeParse(formData).success && selectedFile !== null;
+  const validateField = (field: string) => {
+    const schemaField =
+      formSchema.shape[field as keyof typeof formSchema.shape];
+    const value = formData[field as keyof typeof formData];
+    const result = schemaField.safeParse(value);
+    return !result.success && touchedFields[field];
+  };
 
- const handleNextStep = () => {
-  if (!selectedFile) {
-    alert("Please upload your profile image before continuing.");
-    return;
-  }
-  if (!isFormValid) {
-    alert("Please fill in all fields correctly before proceeding.");
-    return;
-  }
-  if (onNext) {
-    onNext();
-  }
-};
+  const handleNextStep = () => {
+    setTouchedFields(
+      Object.keys(formData).reduce((acc, key) => ({ ...acc, [key]: true }), {})
+    );
+    if (!selectedFile) {
+      alert("Please upload your profile image before continuing.");
+      return;
+    }
+    const isValid =
+      formSchema.safeParse(formData).success && selectedFile !== null;
+    if (!isValid) return
+    onNext?.();
+  };
 
   return (
     <div className="flex justify-center w-full">
       <div className="flex-1 p-6">
-        <div className="shadow-bg rounded-lg w-full max-w-5xl p-6 bg-white mx-auto">
+        <div className="shadow-bg rounded-lg w-full max-w-5xl p-6 mx-auto">
           <h1 className="text-lg font-semibold mb-4">Profile Image</h1>
           <div
             onClick={handleClick}
@@ -132,67 +142,104 @@ const ContactInformationForm: React.FC<ContactInformationFormProps> = ({
                     <SelectItem value="prof">Prof.</SelectItem>
                   </SelectContent>
                 </Select>
+                {validateField("title") && (
+                  <p className="text-red-500 text-xs mt-1">
+                    This field is required!
+                  </p>
+                )}
               </Field>
               <Field className="flex-1">
                 <Input
                   placeholder="First name"
-                  required
+                  value={formData.firstName}
                   onChange={(e) => updateField("firstName", e.target.value)}
                 />
+                {validateField("firstName") && (
+                  <p className="text-red-500 text-xs mt-1">
+                    This field is required!
+                  </p>
+                )}
               </Field>
               <Field className="flex-1">
                 <Input
                   placeholder="Last name"
-                  required
+                  value={formData.lastName}
                   onChange={(e) => updateField("lastName", e.target.value)}
                 />
+                {validateField("lastName") && (
+                  <p className="text-red-500 text-xs mt-1">
+                    This field is required!
+                  </p>
+                )}
               </Field>
               <Field className="flex-1">
                 <Input
                   placeholder="Email"
-                  required
                   type="email"
+                  value={formData.email}
                   onChange={(e) => updateField("email", e.target.value)}
                 />
+                {validateField("email") && (
+                  <p className="text-red-500 text-xs mt-1">
+                    This field is required!
+                  </p>
+                )}
               </Field>
             </div>
-            <div className="flex gap-0 items-center">
-              <Field className="w-20 font-semibold">
-                <Select
-                  defaultValue="+44"
-                  onValueChange={(v) => updateField("phoneCode", v)}
-                >
-                  <SelectTrigger className="rounded-r-none border-r-0 rounded-l-lg">
-                    <SelectValue placeholder="+44" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="+44">+44</SelectItem>
-                    <SelectItem value="+92">+92</SelectItem>
-                  </SelectContent>
-                </Select>
-              </Field>
-              <Field className="flex w-70.5">
-                <Input
-                  placeholder="Phone"
-                  required
-                  className="rounded-l-none rounded-r-lg border-l-0"
-                  onChange={(e) => updateField("phone", e.target.value)}
-                />
-              </Field>
+            <div className="flex flex-col">
+              <div className="flex gap-0 items-center">
+                <Field className="w-20 font-semibold">
+                  <Select
+                    defaultValue="+44"
+                    onValueChange={(v) => updateField("phoneCode", v)}
+                  >
+                    <SelectTrigger className="rounded-r-none border-r-0 rounded-l-lg">
+                      <SelectValue placeholder="+44" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="+44">+44</SelectItem>
+                      <SelectItem value="+92">+92</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </Field>
+                <Field className="flex w-70.5">
+                  <Input
+                    placeholder="Phone"
+                    value={formData.phone}
+                    className="rounded-l-none rounded-r-lg border-l-0"
+                    onChange={(e) => updateField("phone", e.target.value)}
+                  />
+                </Field>
+              </div>
+              {validateField("phone") || validateField("phoneCode") ? (
+                <p className="text-red-500 text-xs mt-4">
+                  This field is required!
+                </p>
+              ) : null}
             </div>
             <Field>
               <Input
                 placeholder="Address line 1"
-                required
+                value={formData.address1}
                 onChange={(e) => updateField("address1", e.target.value)}
               />
+              {validateField("address1") && (
+                <p className="text-red-500 text-xs mt-1">
+                  This field is required!
+                </p>
+              )}
             </Field>
             <Field>
               <Input
                 placeholder="Address line 2"
-                required
+                value={formData.address2}
                 onChange={(e) => updateField("address2", e.target.value)}
               />
+              {validateField("address2") && (
+                <p className="text-red-500 text-xs mt-1">
+                  This field is required!
+                </p>
+              )}
             </Field>
             <div className="flex flex-wrap gap-4">
               <Field className="flex-1">
@@ -205,6 +252,11 @@ const ContactInformationForm: React.FC<ContactInformationFormProps> = ({
                     <SelectItem value="america">America</SelectItem>
                   </SelectContent>
                 </Select>
+                {validateField("country") && (
+                  <p className="text-red-500 text-xs mt-1">
+                    This field is required!
+                  </p>
+                )}
               </Field>
               <Field className="flex-1">
                 <Select onValueChange={(v) => updateField("state", v)}>
@@ -216,6 +268,11 @@ const ContactInformationForm: React.FC<ContactInformationFormProps> = ({
                     <SelectItem value="sindh">Sindh</SelectItem>
                   </SelectContent>
                 </Select>
+                {validateField("state") && (
+                  <p className="text-red-500 text-xs mt-1">
+                    This field is required!
+                  </p>
+                )}
               </Field>
               <Field className="flex-1">
                 <Select onValueChange={(v) => updateField("city", v)}>
@@ -227,14 +284,24 @@ const ContactInformationForm: React.FC<ContactInformationFormProps> = ({
                     <SelectItem value="karachi">Karachi</SelectItem>
                   </SelectContent>
                 </Select>
+                {validateField("city") && (
+                  <p className="text-red-500 text-xs mt-1">
+                    This field is required!
+                  </p>
+                )}
               </Field>
             </div>
             <Field className="flex-1 w-75">
               <Input
                 placeholder="Zip code"
-                required
+                value={formData.zip}
                 onChange={(e) => updateField("zip", e.target.value)}
               />
+              {validateField("zip") && (
+                <p className="text-red-500 text-xs mt-1">
+                  This field is required!
+                </p>
+              )}
             </Field>
             <h1 className="text-lg font-semibold mt-4">
               Professional Contact Details
@@ -243,62 +310,78 @@ const ContactInformationForm: React.FC<ContactInformationFormProps> = ({
               <Field className="flex-1">
                 <Input
                   placeholder="Professional email"
-                  required
                   type="email"
+                  value={formData.workEmail}
                   onChange={(e) => updateField("workEmail", e.target.value)}
                 />
+                {validateField("workEmail") && (
+                  <p className="text-red-500 text-xs mt-1">
+                    This field is required!
+                  </p>
+                )}
               </Field>
-              <div className="flex gap-0 items-center">
-                <Field className="w-19 font-semibold">
-                  <Select
-                    defaultValue="+44"
-                    onValueChange={(v) => updateField("workPhoneCode", v)}
-                  >
-                    <SelectTrigger className="rounded-r-none border-r-0 rounded-l-lg">
-                      <SelectValue placeholder="+44" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="+44">+44</SelectItem>
-                      <SelectItem value="+92">+92</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </Field>
-                <Field className="flex-1">
-                  <Input
-                    placeholder="Phone (000) 000-0000"
-                    required
-                    className="rounded-l-none rounded-r-lg border-l-0"
-                    onChange={(e) => updateField("workPhone", e.target.value)}
-                  />
-                </Field>
+              <div className="flex flex-col">
+                <div className="flex gap-0 items-center">
+                  <Field className="w-19 font-semibold">
+                    <Select
+                      defaultValue="+44"
+                      onValueChange={(v) => updateField("workPhoneCode", v)}
+                    >
+                      <SelectTrigger className="rounded-r-none border-r-0 rounded-l-lg">
+                        <SelectValue placeholder="+44" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="+44">+44</SelectItem>
+                        <SelectItem value="+92">+92</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </Field>
+                  <Field className="flex-1">
+                    <Input
+                      placeholder="Phone (000) 000-0000"
+                      value={formData.workPhone}
+                      className="rounded-l-none rounded-r-lg border-l-0"
+                      onChange={(e) => updateField("workPhone", e.target.value)}
+                    />
+                  </Field>
+                </div>
+                {validateField("phone") || validateField("phoneCode") ? (
+                  <p className="text-red-500 text-xs mt-4">
+                    This field is required!
+                  </p>
+                ) : null}
               </div>
               <Field className="flex-1">
                 <Input
                   placeholder="License no."
-                  required
+                  value={formData.license}
                   onChange={(e) => updateField("license", e.target.value)}
                 />
+                {validateField("license") && (
+                  <p className="text-red-500 text-xs mt-1">
+                    This field is required!
+                  </p>
+                )}
               </Field>
             </div>
             <Field>
               <Input
                 placeholder="Regulatory body"
-                required
+                value={formData.regulatoryBody}
                 onChange={(e) => updateField("regulatoryBody", e.target.value)}
               />
+              {validateField("regulatoryBody") && (
+                <p className="text-red-500 text-xs mt-1">
+                  This field is required!
+                </p>
+              )}
             </Field>
           </form>
           <div className="flex justify-end gap-2 mt-5">
             <button
               type="button"
-              disabled={!isFormValid}
               onClick={handleNextStep}
-              className={`rounded-sm py-2.5 px-4 text-sm font-semibold text-white
-                ${
-                  isFormValid
-                    ? "bg-[#0E9DD8] hover:bg-[#0b81b3] cursor-pointer"
-                    : "bg-gray-300 cursor-not-allowed"
-                }`}
+              className="rounded-sm py-2.5 px-4 text-sm font-semibold text-white bg-[#0E9DD8] hover:bg-[#0b81b3] cursor-pointer"
             >
               Next Step
             </button>

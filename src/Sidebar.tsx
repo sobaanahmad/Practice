@@ -3,7 +3,7 @@ import { Briefcase, Calendar, Clipboard, DollarSign, Headphones, LayoutDashboard
 
 const Sidebar = () => {
   return (
-    <div className="w-[16vw] h-[99vh] shadow-[0_4px_20px_rgba(0,0,0,0.15)] absolute top-0 left-0">
+    <div className="w-[16vw] h-[95vh] shadow-bg fixed top-0 left-0">
       <img
         src="/Azina Health Care.png"
         alt="azina-health-care"
