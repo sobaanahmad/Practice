@@ -1,28 +1,26 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import { ConferenceRegistrationForm } from "./ConferenceRegistrationForm";
+import Dashboard from "./Dashboard";
 //import { TabsTop } from './Tabs'
-//import Sidebar from './Sidebar'
-//import { SearchBar } from './SearchBar'
-//import { AvatarDemo } from './Avatar'
-//import { Search, ShoppingCart } from 'lucide-react'
-//import { Button } from './components/ui/button'
+import Sidebar from "./Sidebar";
+import { SearchBar } from "./SearchBar";
+import { AvatarDemo } from "./Avatar";
+import { Search, ShoppingCart } from "lucide-react";
+import { Button } from "./components/ui/button";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <body className="bg-slate-600">
-    {/* <Button className='absolute right-22 top-6 bg-white text-[#5B616E] cursor-pointer hover:bg-white'>
+    {/* <TabsTop/> */}
+    <Sidebar />
+    <Button className="absolute right-22 top-6 bg-white text-[#5B616E] cursor-pointer hover:bg-white">
       <ShoppingCart />
     </Button>
-    <Button className='absolute right-32 top-6 bg-white text-[#5B616E] cursor-pointer hover:bg-white'>
+    <Button className="absolute right-32 top-6 bg-white text-[#5B616E] cursor-pointer hover:bg-white">
       <Search />
     </Button>
-    <AvatarDemo/>
-    <SearchBar/>
-    <Sidebar />
-    <TabsTop/> */}
-    <ConferenceRegistrationForm />
-    </body>
+    <AvatarDemo />
+    <SearchBar />
+    <Dashboard />
   </StrictMode>
 );

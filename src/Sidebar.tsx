@@ -9,43 +9,43 @@ const Sidebar = () => {
         alt="azina-health-care"
         className="w-37 h-7 ml-3 mt-6 ml-8"
       />
-      <Button className="bg-white cursor-pointer mt-7 hover:bg-[#0E9DD8] w-42 flex justify-start ml-5 text-[#D8DBDF] hover:text-white rounded-lg">
+      <Button className="bg-white cursor-pointer mt-7 hover:bg-[#0E9DD8] w-42 flex justify-start ml-5 text-[#D8DBDF] hover:text-white rounded-md">
         <LayoutDashboardIcon />
         Dashboard
       </Button>
-      <Button className="bg-white cursor-pointer mt-2 hover:bg-[#0E9DD8] w-42 flex justify-start ml-5 text-[#D8DBDF] hover:text-white rounded-lg">
+      <Button className="bg-white cursor-pointer mt-2 hover:bg-[#0E9DD8] w-42 flex justify-start ml-5 text-[#D8DBDF] hover:text-white rounded-md">
         <Calendar/>
         Appointments
       </Button>
-      <Button className="bg-white cursor-pointer mt-2 hover:bg-[#0E9DD8] w-42 flex justify-start ml-5 text-[#D8DBDF] hover:text-white rounded-lg">
+      <Button className="bg-white cursor-pointer mt-2 hover:bg-[#0E9DD8] w-42 flex justify-start ml-5 text-[#D8DBDF] hover:text-white rounded-md">
         <Clipboard />
         Prescriptions
       </Button>
-      <Button className="bg-white cursor-pointer mt-2 hover:bg-[#0E9DD8] w-42 flex justify-start ml-5 text-[#D8DBDF] hover:text-white rounded-lg">
+      <Button className="bg-white cursor-pointer mt-2 hover:bg-[#0E9DD8] w-42 flex justify-start ml-5 text-[#D8DBDF] hover:text-white rounded-md">
         <Calendar />
         Calendar
       </Button>
-      <Button className="bg-white cursor-pointer mt-2 hover:bg-[#0E9DD8] w-42 flex justify-start ml-5 text-[#D8DBDF] hover:text-white rounded-lg">
+      <Button className="bg-white cursor-pointer mt-2 hover:bg-[#0E9DD8] w-42 flex justify-start ml-5 text-[#D8DBDF] hover:text-white rounded-md">
         <Briefcase />
         Services
       </Button>
-      <Button className="bg-white cursor-pointer mt-2 hover:bg-[#0E9DD8] w-42 flex justify-start ml-5 text-[#D8DBDF] hover:text-white rounded-lg">
+      <Button className="bg-white cursor-pointer mt-2 hover:bg-[#0E9DD8] w-42 flex justify-start ml-5 text-[#D8DBDF] hover:text-white rounded-md">
         <DollarSign />
         Payments
       </Button>
-      <Button className="bg-white cursor-pointer mt-2 hover:bg-[#0E9DD8] w-42 flex justify-start ml-5 text-[#D8DBDF] hover:text-white rounded-lg">
+      <Button className="bg-white cursor-pointer mt-2 hover:bg-[#0E9DD8] w-42 flex justify-start ml-5 text-[#D8DBDF] hover:text-white rounded-md">
         <MessageCircle />
         Chats
       </Button>
-      <Button className="bg-white cursor-pointer mt-2 hover:bg-[#0E9DD8] w-42 flex justify-start ml-5 text-[#D8DBDF] hover:text-white rounded-lg">
+      <Button className="bg-white cursor-pointer mt-2 hover:bg-[#0E9DD8] w-42 flex justify-start ml-5 text-[#D8DBDF] hover:text-white rounded-md">
         <Star />
         Reviews
       </Button>
-      <Button className="bg-white cursor-pointer mt-2 hover:bg-[#0E9DD8] w-42 flex justify-start ml-5 text-[#D8DBDF] hover:text-white rounded-lg">
+      <Button className="bg-white cursor-pointer mt-2 hover:bg-[#0E9DD8] w-42 flex justify-start ml-5 text-[#D8DBDF] hover:text-white rounded-md">
         <Settings />
         Settings
       </Button>
-      <Button className="bg-white cursor-pointer mt-2 hover:bg-[#0E9DD8] w-42 flex justify-start ml-5 text-[#D8DBDF] hover:text-white rounded-lg">
+      <Button className="bg-white cursor-pointer mt-2 hover:bg-[#0E9DD8] w-42 flex justify-start ml-5 text-[#D8DBDF] hover:text-white rounded-md">
         <Headphones />
         Contact Us
       </Button>

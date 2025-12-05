@@ -24,7 +24,7 @@ const formSchema = z.object({
   phone: z.string().min(5, "Please enter a valid phone number"),
   addressLine1: z.string().min(5, "Address is required"),
   addressLine2: z.string().optional(),
-  state: z.string().min(1, "Please select a state"),
+  province: z.string().min(1, "Please select a province"),
   city: z.string().min(1, "Please enter a city"),
   zipCode: z.string().min(3, "Please enter a valid zip code"),
   conferencePackage: z.string().min(1, "Please select a conference package"),
@@ -45,7 +45,7 @@ export function ConferenceRegistrationForm() {
       phone: "",
       addressLine1: "",
       addressLine2: "",
-      state: "",
+      province: "",
       city: "",
       zipCode: "",
       conferencePackage: "",
@@ -53,14 +53,14 @@ export function ConferenceRegistrationForm() {
       expiry: "",
       cvv: "",
     },
-  });
+  });;
 
   function onSubmit(values: FormValues) {
     console.log("Form submitted:", values);
   }
 
   return (
-    <div className="shadow-bg rounded-lg w-full max-w-5xl p-6 mx-auto mt-4 mb-4 bg-white">
+    <div className="shadow-bg rounded-lg w-full max-w-5xl p-6 mx-auto mt-4 mb-4">
       <h1 className="font-bold text-3xl mb-3">Conference Registration</h1>
       <h2 className="text-lg">
         Please book for your conference by filling the form below, specify the
@@ -119,7 +119,28 @@ export function ConferenceRegistrationForm() {
                       <FormItem>
                         <FormLabel>Phone No.</FormLabel>
                         <FormControl>
-                          <Input placeholder="(000) 000-0000" {...field} />
+                          <Input
+                            placeholder="(000) 000-0000"
+                            {...field}
+                            onChange={(e) => {
+                              let value = e.target.value;
+                              value = value.replace(/\D/g, "");
+                              value = value.slice(0, 10);
+                              if (value.length > 6) {
+                                value = `(${value.slice(0, 3)}) ${value.slice(
+                                  3,
+                                  6
+                                )}-${value.slice(6)}`;
+                              } else if (value.length > 3) {
+                                value = `(${value.slice(0, 3)}) ${value.slice(
+                                  3
+                                )}`;
+                              } else if (value.length > 0) {
+                                value = `(${value}`;
+                              }
+                              field.onChange(value);
+                            }}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -143,12 +164,12 @@ export function ConferenceRegistrationForm() {
                 />
                 <FormField
                   control={form.control}
-                  name="state"
+                  name="province"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>State</FormLabel>
+                      <FormLabel>Province</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter state" {...field} />
+                        <Input placeholder="Enter province" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -188,7 +209,7 @@ export function ConferenceRegistrationForm() {
                   <FormItem>
                     <FormLabel>Postal/Zip Code</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter zip code" {...field} />
+                      <Input placeholder="Enter postal/zip code" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -217,11 +238,11 @@ export function ConferenceRegistrationForm() {
                             key={pkg.value}
                             className={`border rounded-lg p-2 cursor-pointer flex-1 text-center ${
                               field.value === pkg.value
-                                ? "border-yellow-500 bg-yellow-50"
+                                ? "border-green-500 bg-green-50"
                                 : "border-gray-300"
                             }`}
                           >
-                            <input
+                            <Input
                               type="radio"
                               value={pkg.value}
                               checked={field.value === pkg.value}
@@ -317,7 +338,7 @@ export function ConferenceRegistrationForm() {
               </div>
             </CardContent>
           </Card>
-          <div className="flex justify-end gap-2">
+          <div className="flex justify-end gap-1.5">
             <Button
               className="bg-red-500 text-white cursor-pointer hover:bg-red-600 hover:text-white"
               variant="outline"
