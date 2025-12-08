@@ -125,3 +125,9 @@
   }
 }
 
+@layer utilities {
+  .graph-color{
+    @apply bg-[#0E9DD8]
+  }
+}
+

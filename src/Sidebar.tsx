@@ -1,55 +1,103 @@
+import { useState } from "react";
 import { Button } from "./components/ui/button";
-import { Briefcase, Calendar, Clipboard, DollarSign, Headphones, LayoutDashboardIcon, MessageCircle, Settings, Star } from "lucide-react";
+import {
+  Briefcase,
+  Calendar,
+  Clipboard,
+  DollarSign,
+  Headphones,
+  LayoutDashboardIcon,
+  MessageCircle,
+  Settings,
+  Star,
+  Menu,
+  X,
+} from "lucide-react";
 
-const Sidebar = () => {
+interface SidebarProps {
+  onSelect: (page: string) => void;
+  activePage: string;
+}
+
+const Sidebar = ({ onSelect, activePage }: SidebarProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const getButtonClasses = (page: string) => {
+    const baseClasses =
+      "cursor-pointer mt-2 w-full ml-2 px-4 py-3 flex items-center gap-2 justify-start text-[#D8DBDF] rounded-md";
+    const hoverClasses = "hover:bg-[#0E9DD8] hover:text-white";
+    const isActive = activePage === page;
+    const bgClass = isActive ? "bg-[#0E9DD8] text-white" : "bg-white";
+    return `${baseClasses} ${bgClass} ${hoverClasses}`;
+  };
+
   return (
-    <div className="w-[16vw] h-[95vh] shadow-bg fixed top-0 left-0">
-      <img
-        src="/Azina Health Care.png"
-        alt="azina-health-care"
-        className="w-37 h-7 ml-3 mt-6 ml-8"
-      />
-      <Button className="bg-white cursor-pointer mt-7 hover:bg-[#0E9DD8] w-42 flex justify-start ml-5 text-[#D8DBDF] hover:text-white rounded-md">
-        <LayoutDashboardIcon />
-        Dashboard
+    <>
+      <Button
+        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-[#0E9DD8] shadow rounded-md cursor-pointer"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        {isOpen ? <X size={22} /> : <Menu size={22} />}
       </Button>
-      <Button className="bg-white cursor-pointer mt-2 hover:bg-[#0E9DD8] w-42 flex justify-start ml-5 text-[#D8DBDF] hover:text-white rounded-md">
-        <Calendar/>
-        Appointments
-      </Button>
-      <Button className="bg-white cursor-pointer mt-2 hover:bg-[#0E9DD8] w-42 flex justify-start ml-5 text-[#D8DBDF] hover:text-white rounded-md">
-        <Clipboard />
-        Prescriptions
-      </Button>
-      <Button className="bg-white cursor-pointer mt-2 hover:bg-[#0E9DD8] w-42 flex justify-start ml-5 text-[#D8DBDF] hover:text-white rounded-md">
-        <Calendar />
-        Calendar
-      </Button>
-      <Button className="bg-white cursor-pointer mt-2 hover:bg-[#0E9DD8] w-42 flex justify-start ml-5 text-[#D8DBDF] hover:text-white rounded-md">
-        <Briefcase />
-        Services
-      </Button>
-      <Button className="bg-white cursor-pointer mt-2 hover:bg-[#0E9DD8] w-42 flex justify-start ml-5 text-[#D8DBDF] hover:text-white rounded-md">
-        <DollarSign />
-        Payments
-      </Button>
-      <Button className="bg-white cursor-pointer mt-2 hover:bg-[#0E9DD8] w-42 flex justify-start ml-5 text-[#D8DBDF] hover:text-white rounded-md">
-        <MessageCircle />
-        Chats
-      </Button>
-      <Button className="bg-white cursor-pointer mt-2 hover:bg-[#0E9DD8] w-42 flex justify-start ml-5 text-[#D8DBDF] hover:text-white rounded-md">
-        <Star />
-        Reviews
-      </Button>
-      <Button className="bg-white cursor-pointer mt-2 hover:bg-[#0E9DD8] w-42 flex justify-start ml-5 text-[#D8DBDF] hover:text-white rounded-md">
-        <Settings />
-        Settings
-      </Button>
-      <Button className="bg-white cursor-pointer mt-2 hover:bg-[#0E9DD8] w-42 flex justify-start ml-5 text-[#D8DBDF] hover:text-white rounded-md">
-        <Headphones />
-        Contact Us
-      </Button>
-    </div>
+      <div
+        className={`
+          fixed top-0 left-0 h-full bg-white shadow-bg z-40 
+          transform transition-transform duration-300
+          w-[240px]              
+          lg:w-[16vw]            
+          ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
+        `}
+      >
+        <img
+          src="/Azina Health Care.png"
+          alt="azina-health-care"
+          className="w-37 h-7 ml-8 mt-6"
+        />
+
+        <div className="mt-8 flex flex-col w-50">
+
+          <Button onClick={() => onSelect("dashboard")} className={getButtonClasses("dashboard")}>
+            <LayoutDashboardIcon /> Dashboard
+          </Button>
+
+          <Button onClick={() => onSelect("appointments")} className={getButtonClasses("appointments")}>
+            <Calendar /> Appointments
+          </Button>
+
+          <Button onClick={() => onSelect("prescriptions")} className={getButtonClasses("prescriptions")}>
+            <Clipboard /> Prescriptions
+          </Button>
+
+          <Button onClick={() => onSelect("calendar")} className={getButtonClasses("calendar")}>
+            <Calendar /> Calendar
+          </Button>
+
+          <Button onClick={() => onSelect("services")} className={getButtonClasses("services")}>
+            <Briefcase /> Services
+          </Button>
+
+          <Button onClick={() => onSelect("payments")} className={getButtonClasses("payments")}>
+            <DollarSign /> Payments
+          </Button>
+
+          <Button onClick={() => onSelect("chats")} className={getButtonClasses("chats")}>
+            <MessageCircle /> Chats
+          </Button>
+
+          <Button onClick={() => onSelect("reviews")} className={getButtonClasses("reviews")}>
+            <Star /> Reviews
+          </Button>
+
+          <Button onClick={() => onSelect("settings")} className={getButtonClasses("settings")}>
+            <Settings /> Settings
+          </Button>
+
+          <Button onClick={() => onSelect("contact")} className={getButtonClasses("contact")}>
+            <Headphones /> Contact Us
+          </Button>
+        </div>
+      </div>
+    </>
   );
 };
 

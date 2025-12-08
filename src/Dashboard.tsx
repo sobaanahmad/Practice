@@ -1,12 +1,14 @@
+import { useState } from "react";
 import {
+  Banknote,
   BriefcaseMedical,
   Calendar,
   Clipboard,
-  DollarSign,
 } from "lucide-react";
 import {
   Card,
   CardAction,
+  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -21,10 +23,31 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
+  Line,
+  LineChart,
   ResponsiveContainer,
   XAxis,
   YAxis,
 } from "recharts";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "./components/ui/carousel";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "./components/ui/table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/ui/tabs";
+import { Button } from "./components/ui/button";
+
 const chartData = [
   { month: "January", desktop: 186 },
   { month: "February", desktop: 305 },
@@ -33,22 +56,74 @@ const chartData = [
   { month: "May", desktop: 209 },
   { month: "June", desktop: 214 },
 ];
-const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "var(--chart-1)",
+
+const invoices = [
+  {
+    invoice: "INV001",
+    paymentStatus: "Paid",
+    totalAmount: "$250.00",
+    paymentMethod: "Credit Card",
   },
+  {
+    invoice: "INV002",
+    paymentStatus: "Pending",
+    totalAmount: "$150.00",
+    paymentMethod: "PayPal",
+  },
+  {
+    invoice: "INV003",
+    paymentStatus: "Unpaid",
+    totalAmount: "$350.00",
+    paymentMethod: "Bank Transfer",
+  },
+  {
+    invoice: "INV004",
+    paymentStatus: "Paid",
+    totalAmount: "$450.00",
+    paymentMethod: "Credit Card",
+  },
+  {
+    invoice: "INV005",
+    paymentStatus: "Paid",
+    totalAmount: "$550.00",
+    paymentMethod: "PayPal",
+  },
+  {
+    invoice: "INV006",
+    paymentStatus: "Pending",
+    totalAmount: "$200.00",
+    paymentMethod: "Bank Transfer",
+  },
+  {
+    invoice: "INV007",
+    paymentStatus: "Unpaid",
+    totalAmount: "$300.00",
+    paymentMethod: "Credit Card",
+  },
+];
+
+const chartConfig = {
+  desktop: { label: "Desktop", color: "var(--chart-1)" },
 } satisfies ChartConfig;
 
 const Dashboard = () => {
+  const [showAllRowsTab, setShowAllRowsTab] = useState(false);
+  const [showAllRowsSecond, setShowAllRowsSecond] = useState(false);
+  const [activeTab, setActiveTab] = useState("tab1");
+
+  const displayedInvoicesTab = showAllRowsTab ? invoices : invoices.slice(0, 4);
+  const displayedInvoicesSecond = showAllRowsSecond
+    ? invoices
+    : invoices.slice(0, 4);
+
   return (
     <div className="rounded-lg w-full max-w-6xl p-6 mx-60 flex flex-col gap-1.5">
       <h1 className="text-2xl font-bold">Dashboard</h1>
       <h1 className="text-lg text-gray-500">
         Manage your profile settings and information.
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-5 w-full mt-4">
-        <Card className="shadow-bg w-[270px] h-[115px] rounded-lg relative">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-3 w-full mt-4">
+        <Card className="shadow-bg w-[270px] h-[115px] rounded-lg relative hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer">
           <CardHeader>
             <CardTitle className="text-md font-[400] absolute top-3 left-5">
               Total Appointments
@@ -56,16 +131,15 @@ const Dashboard = () => {
             <CardDescription className="text-[20px] font-bold absolute top-13 left-5 text-black">
               +50
             </CardDescription>
-            <CardDescription className="text-[12px]  absolute top-20 left-5 text-gray-500">
+            <CardDescription className="text-[12px] absolute top-20 left-5 text-gray-500">
               +20.1% from last month
             </CardDescription>
-            <CardAction className="absolute top-4 right-5 text-gray-500 ">
+            <CardAction className="absolute top-4 right-5 text-gray-500">
               <Calendar size={18} />
             </CardAction>
           </CardHeader>
         </Card>
-
-        <Card className="shadow-bg w-[270px] h-[115px] rounded-lg relative">
+        <Card className="shadow-bg w-[270px] h-[115px] rounded-lg relative hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer">
           <CardHeader>
             <CardTitle className="text-md font-[400] absolute top-3 left-5">
               Total Prescriptions
@@ -73,16 +147,15 @@ const Dashboard = () => {
             <CardDescription className="text-[20px] font-bold absolute top-13 left-5 text-black">
               +50
             </CardDescription>
-            <CardDescription className="text-[12px]  absolute top-20 left-5 text-gray-500">
+            <CardDescription className="text-[12px] absolute top-20 left-5 text-gray-500">
               +20.1% from last month
             </CardDescription>
-            <CardAction className="absolute top-4 right-5 text-gray-500 ">
+            <CardAction className="absolute top-4 right-5 text-gray-500">
               <Clipboard size={18} />
             </CardAction>
           </CardHeader>
         </Card>
-
-        <Card className="shadow-bg w-[270px] h-[115px] rounded-lg relative">
+        <Card className="shadow-bg w-[270px] h-[115px] rounded-lg relative hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer">
           <CardHeader>
             <CardTitle className="text-md font-[400] absolute top-3 left-5">
               Services
@@ -90,16 +163,15 @@ const Dashboard = () => {
             <CardDescription className="text-[20px] font-bold absolute top-13 left-5 text-black">
               12
             </CardDescription>
-            <CardDescription className="text-[12px]  absolute top-20 left-5 text-gray-500">
+            <CardDescription className="text-[12px] absolute top-20 left-5 text-gray-500">
               +20.1% from last month
             </CardDescription>
-            <CardAction className="absolute top-4 right-5 text-gray-500 ">
+            <CardAction className="absolute top-4 right-5 text-gray-500">
               <BriefcaseMedical size={18} />
             </CardAction>
           </CardHeader>
         </Card>
-
-        <Card className="shadow-bg w-[270px] h-[115px] rounded-lg relative">
+        <Card className="shadow-bg w-[270px] h-[115px] rounded-lg relative hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer">
           <CardHeader>
             <CardTitle className="text-md font-[400] absolute top-3 left-5">
               Earnings
@@ -107,18 +179,20 @@ const Dashboard = () => {
             <CardDescription className="text-[20px] font-bold absolute top-13 left-5 text-black">
               £4368.00
             </CardDescription>
-            <CardDescription className="text-[12px]  absolute top-20 left-5 text-gray-500">
+            <CardDescription className="text-[12px] absolute top-20 left-5 text-gray-500">
               +20.1% from last month
             </CardDescription>
-            <CardAction className="absolute top-4 right-5 text-gray-500 ">
-              <DollarSign size={18} />
+            <CardAction className="absolute top-4 right-5 text-gray-500">
+              <Banknote size={18} />
             </CardAction>
           </CardHeader>
         </Card>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 w-full mt-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full mt-4">
         <Card className="shadow-bg w-[360px] h-[315px] rounded-lg relative flex flex-col">
-          <h2 className="text-[20px] font-[600] absolute top-2 left-4">Payments</h2>
+          <h2 className="text-[20px] font-[600] absolute top-2 left-4">
+            Payments
+          </h2>
           <div className="flex-1 w-full ml-[-20px]">
             <ChartContainer config={chartConfig} className="w-full h-full mt-5">
               <ResponsiveContainer width="100%" height="100%">
@@ -136,33 +210,215 @@ const Dashboard = () => {
                     cursor={false}
                     content={<ChartTooltipContent hideLabel />}
                   />
-                  <Bar
-                    dataKey="desktop"
-                    fill="var(--color-desktop)"
-                    radius={8}
-                  />
+                  <Bar dataKey="desktop" fill="#0E9DD8" radius={8} />
                 </BarChart>
               </ResponsiveContainer>
             </ChartContainer>
           </div>
         </Card>
-
         <Card className="shadow-bg w-[360px] h-[315px] rounded-lg relative">
           <CardHeader>
             <CardTitle className="text-[20px] font-[600] absolute top-3 left-5">
               Appointments
             </CardTitle>
           </CardHeader>
+          <CardContent className="mt-12">
+            <ChartContainer config={chartConfig}>
+              <LineChart
+                accessibilityLayer
+                data={chartData}
+                margin={{ left: 12, right: 12 }}
+              >
+                <CartesianGrid vertical={false} />
+                <XAxis
+                  dataKey="month"
+                  tickLine={false}
+                  axisLine={false}
+                  tickMargin={8}
+                  tickFormatter={(value) => value.slice(0, 3)}
+                />
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent />}
+                />
+                <Line
+                  dataKey="desktop"
+                  type="monotone"
+                  stroke="#0E9DD8"
+                  strokeWidth={2}
+                  dot={false}
+                />
+                <Line
+                  dataKey="mobile"
+                  type="monotone"
+                  stroke="var(--color-mobile)"
+                  strokeWidth={2}
+                  dot={false}
+                />
+              </LineChart>
+            </ChartContainer>
+          </CardContent>
         </Card>
-
-        <Card className="shadow-bg w-[360px] h-[315px] rounded-lg relative">
+        <Card className="shadow-bg w-[360px] h-[315px] rounded-lg relative overflow-hidden">
           <CardHeader>
             <CardTitle className="text-[20px] font-[600] absolute top-3 left-5">
               Upcoming Appointments
             </CardTitle>
+            <Carousel
+              opts={{ align: "start" }}
+              className="w-full max-w-[230px] mt-8 relative ml-10 cursor-pointer"
+            >
+              <CarouselContent>
+                {Array.from({ length: 15 }).map((_, index) => {
+                  const date = new Date();
+                  date.setDate(index + 1);
+                  const day = date.getDate();
+                  const month = date.toLocaleString("default", {
+                    month: "short",
+                  });
+                  return (
+                    <CarouselItem
+                      key={index}
+                      className="basis-1/4 md:basis-1/5"
+                    >
+                      <div className="p-[1px]">
+                        <div className="w-full h-0 pb-[100%] relative">
+                          <div className="absolute inset-0 bg-white flex items-center justify-center">
+                            <span className="text-[14px] font-semibold text-center hover:bg-[#0E9DD8] hover:text-white rounded-lg p-2">
+                              {month} {day}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </CarouselItem>
+                  );
+                })}
+              </CarouselContent>
+              <CarouselPrevious className="absolute -left-12 top-1/2 -translate-y-1/2 cursor-pointer rounded-md p-2 " />
+              <CarouselNext className="absolute -right-12 top-1/2 -translate-y-1/2 cursor-pointer rounded-md p-2" />
+            </Carousel>
+            <div className="mt-3 h-[165px] overflow-y-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-[100px]">Invoice</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Method</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {invoices.map((invoice) => (
+                    <TableRow key={invoice.invoice}>
+                      <TableCell>{invoice.invoice}</TableCell>
+                      <TableCell>{invoice.paymentStatus}</TableCell>
+                      <TableCell>{invoice.paymentMethod}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           </CardHeader>
         </Card>
-        
+      </div>
+      <div className="grid grid-cols-1 w-full mt-4 rounded-lg shadow-bg p-4 relative">
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
+          <TabsList className="absolute top-4 left-4">
+            <TabsTrigger value="tab1" className="cursor-pointer">
+              Appointment
+            </TabsTrigger>
+            <TabsTrigger value="tab2" className="cursor-pointer">
+              Prescriptions
+            </TabsTrigger>
+            <TabsTrigger value="tab3" className="cursor-pointer">
+              Patients
+            </TabsTrigger>
+          </TabsList>
+          <Button
+            onClick={() => setShowAllRowsTab(!showAllRowsTab)}
+            className="absolute top-4 right-4 font-[600] text-[#0E9DD8] bg-white hover:bg-white px-3 py-1 rounded text-sm cursor-pointer"
+          >
+            {showAllRowsTab ? "Hide" : "View All"}
+          </Button>
+          {["tab1", "tab2", "tab3"].map((tab) => (
+            <TabsContent key={tab} value={tab} className="mt-12">
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Invoice</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Method</TableHead>
+                      <TableHead className="text-right">Amount</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {displayedInvoicesTab.map((invoice) => (
+                      <TableRow key={invoice.invoice}>
+                        <TableCell>{invoice.invoice}</TableCell>
+                        <TableCell>{invoice.paymentStatus}</TableCell>
+                        <TableCell>{invoice.paymentMethod}</TableCell>
+                        <TableCell className="text-right">
+                          {invoice.totalAmount}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                  {showAllRowsTab && (
+                    <TableFooter>
+                      <TableRow>
+                        <TableCell colSpan={3}>Total</TableCell>
+                        <TableCell className="text-right">$2,500.00</TableCell>
+                      </TableRow>
+                    </TableFooter>
+                  )}
+                </Table>
+              </div>
+            </TabsContent>
+          ))}
+        </Tabs>
+      </div>
+      <div className="grid grid-cols-1 w-full mt-4 rounded-lg shadow-bg p-4 relative">
+        <Button
+          onClick={() => setShowAllRowsSecond(!showAllRowsSecond)}
+          className="absolute top-3 right-4 font-[600] text-[#0E9DD8] bg-white hover:bg-white px-3 py-1 rounded text-sm cursor-pointer"
+        >
+          {showAllRowsSecond ? "Hide" : "View All"}
+        </Button>
+        <div className="overflow-x-auto mt-4">
+          <h1 className="font-[600] text-[20px] ml-1 absolute top-4">
+            Services
+          </h1>
+          <Table className="mt-4">
+            <TableHeader>
+              <TableRow>
+                <TableHead>Invoice</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Method</TableHead>
+                <TableHead className="text-right">Amount</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {displayedInvoicesSecond.map((invoice) => (
+                <TableRow key={invoice.invoice}>
+                  <TableCell>{invoice.invoice}</TableCell>
+                  <TableCell>{invoice.paymentStatus}</TableCell>
+                  <TableCell>{invoice.paymentMethod}</TableCell>
+                  <TableCell className="text-right">
+                    {invoice.totalAmount}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+            {showAllRowsSecond && (
+              <TableFooter>
+                <TableRow>
+                  <TableCell colSpan={3}>Total</TableCell>
+                  <TableCell className="text-right">$2,500.00</TableCell>
+                </TableRow>
+              </TableFooter>
+            )}
+          </Table>
+        </div>
       </div>
     </div>
   );
