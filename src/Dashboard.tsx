@@ -1,10 +1,5 @@
 import { useState } from "react";
-import {
-  Banknote,
-  BriefcaseMedical,
-  Calendar,
-  Clipboard,
-} from "lucide-react";
+import { Banknote, BriefcaseMedical, Calendar, Clipboard } from "lucide-react";
 import {
   Card,
   CardAction,
@@ -40,7 +35,6 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -59,46 +53,123 @@ const chartData = [
 
 const invoices = [
   {
-    invoice: "INV001",
+    invoice: "SE95790",
+    apptFor: "Adult",
+    patientName: "Guy Hawkins",
+    service: "Urgent Care",
+    condition: "Cold & Flu",
+    status: "Pending",
+    date: "Nov 22, 2024",
     paymentStatus: "Paid",
     totalAmount: "$250.00",
     paymentMethod: "Credit Card",
+    servicesID: "51655",
+    conditions: "05",
+    priceRange: "£35.00 - £100.00",
+    lastUpdate: "Sep 24, 2024",
+    createdOn: "Sep 24, 2024",
   },
   {
-    invoice: "INV002",
+    invoice: "SE95790",
+    apptFor: "Adult",
+    patientName: "Brooklyn Simmons",
+    service: "STD/STI",
+    condition: "Cough",
+    status: "Completed",
+    date: "Nov 22, 2024",
     paymentStatus: "Pending",
     totalAmount: "$150.00",
     paymentMethod: "PayPal",
+    servicesID: "51655",
+    conditions: "05",
+    priceRange: "£35.00 - £100.00",
+    lastUpdate: "Sep 24, 2024",
+    createdOn: "Sep 24, 2024",
   },
   {
-    invoice: "INV003",
+    invoice: "SE95790",
+    apptFor: "Adult",
+    patientName: "Marvin McKinney",
+    service: "Women's Health",
+    condition: "Blood Pressure",
+    status: "Completed",
+    date: "Nov 22, 2024",
     paymentStatus: "Unpaid",
     totalAmount: "$350.00",
     paymentMethod: "Bank Transfer",
+    servicesID: "51655",
+    conditions: "05",
+    priceRange: "£35.00 - £100.00",
+    lastUpdate: "Sep 24, 2024",
+    createdOn: "Sep 24, 2024",
   },
   {
-    invoice: "INV004",
+    invoice: "SE95790",
+    apptFor: "Adult",
+    patientName: "Leslie Alexander",
+    service: "Mens Health",
+    condition: "Cold & Flu",
+    status: "Upcoming",
+    date: "Nov 22, 2024",
     paymentStatus: "Paid",
     totalAmount: "$450.00",
     paymentMethod: "Credit Card",
+    servicesID: "51655",
+    conditions: "05",
+    priceRange: "£35.00 - £100.00",
+    lastUpdate: "Sep 24, 2024",
+    createdOn: "Sep 24, 2024",
   },
   {
-    invoice: "INV005",
+    invoice: "SE95790",
+    apptFor: "Adult",
+    patientName: "Tom Hanks",
+    service: "Urgent Care",
+    condition: "Blood Pressure",
+    status: "Pending",
+    date: "Nov 22, 2024",
     paymentStatus: "Paid",
     totalAmount: "$550.00",
     paymentMethod: "PayPal",
+    servicesID: "51655",
+    conditions: "05",
+    priceRange: "£35.00 - £100.00",
+    lastUpdate: "Sep 24, 2024",
+    createdOn: "Sep 24, 2024",
   },
   {
-    invoice: "INV006",
+    invoice: "SE95790",
+    apptFor: "Adult",
+    patientName: "Gary Potts",
+    service: "Emergency",
+    condition: "Fracture",
+    status: "Completed",
+    date: "Nov 22, 2024",
     paymentStatus: "Pending",
     totalAmount: "$200.00",
     paymentMethod: "Bank Transfer",
+    servicesID: "51655",
+    conditions: "05",
+    priceRange: "£35.00 - £100.00",
+    lastUpdate: "Sep 24, 2024",
+    createdOn: "Sep 24, 2024",
   },
   {
-    invoice: "INV007",
+    invoice: "SE95790",
+    apptFor: "Adult",
+    patientName: "Steve McQueen",
+    service: "ECG",
+    condition: "Arrhythmia",
+    status: "Upcoming",
+    date: "Nov 22, 2024",
     paymentStatus: "Unpaid",
     totalAmount: "$300.00",
     paymentMethod: "Credit Card",
+    servicesID: "51655",
+    conditions: "05",
+    priceRange: "£35.00 - £100.00",
+    lastUpdate: "Sep 24, 2024",
+    createdOn: "Sep 24, 2024",
   },
 ];
 
@@ -301,7 +372,7 @@ const Dashboard = () => {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-[100px]">Invoice</TableHead>
+                    <TableHead className="w-[100px]">ID</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead>Method</TableHead>
                   </TableRow>
@@ -345,32 +416,34 @@ const Dashboard = () => {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Invoice</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Method</TableHead>
-                      <TableHead className="text-right">Amount</TableHead>
+                      <TableHead className="text-[#8E95A2]">ID</TableHead>
+                      <TableHead className="text-[#8E95A2]">
+                        Appt. For
+                      </TableHead>
+                      <TableHead className="text-[#8E95A2]">
+                        Patient Name
+                      </TableHead>
+                      <TableHead className="text-[#8E95A2]">Service</TableHead>
+                      <TableHead className="text-[#8E95A2]">
+                        Condition
+                      </TableHead>
+                      <TableHead className="text-[#8E95A2]">Status</TableHead>
+                      <TableHead className="text-[#8E95A2]">Date</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {displayedInvoicesTab.map((invoice) => (
                       <TableRow key={invoice.invoice}>
                         <TableCell>{invoice.invoice}</TableCell>
-                        <TableCell>{invoice.paymentStatus}</TableCell>
-                        <TableCell>{invoice.paymentMethod}</TableCell>
-                        <TableCell className="text-right">
-                          {invoice.totalAmount}
-                        </TableCell>
+                        <TableCell>{invoice.apptFor}</TableCell>
+                        <TableCell>{invoice.patientName}</TableCell>
+                        <TableCell>{invoice.service}</TableCell>
+                        <TableCell>{invoice.condition}</TableCell>
+                        <TableCell>{invoice.status}</TableCell>
+                        <TableCell>{invoice.date}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
-                  {showAllRowsTab && (
-                    <TableFooter>
-                      <TableRow>
-                        <TableCell colSpan={3}>Total</TableCell>
-                        <TableCell className="text-right">$2,500.00</TableCell>
-                      </TableRow>
-                    </TableFooter>
-                  )}
                 </Table>
               </div>
             </TabsContent>
@@ -391,32 +464,26 @@ const Dashboard = () => {
           <Table className="mt-4">
             <TableHeader>
               <TableRow>
-                <TableHead>Invoice</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Method</TableHead>
-                <TableHead className="text-right">Amount</TableHead>
+                <TableHead className="text-[#8E95A2]">ID</TableHead>
+                <TableHead className="text-[#8E95A2]">Service</TableHead>
+                <TableHead className="text-[#8E95A2]">Conditions</TableHead>
+                <TableHead className="text-[#8E95A2]">Price Range</TableHead>
+                <TableHead className="text-[#8E95A2]">Last Update</TableHead>
+                <TableHead className="text-[#8E95A2]">Created On</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {displayedInvoicesSecond.map((invoice) => (
                 <TableRow key={invoice.invoice}>
-                  <TableCell>{invoice.invoice}</TableCell>
-                  <TableCell>{invoice.paymentStatus}</TableCell>
-                  <TableCell>{invoice.paymentMethod}</TableCell>
-                  <TableCell className="text-right">
-                    {invoice.totalAmount}
-                  </TableCell>
+                  <TableCell>{invoice.servicesID}</TableCell>
+                  <TableCell>{invoice.service}</TableCell>
+                  <TableCell>{invoice.conditions}</TableCell>
+                  <TableCell>{invoice.priceRange}</TableCell>
+                  <TableCell>{invoice.lastUpdate}</TableCell>
+                  <TableCell>{invoice.createdOn}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
-            {showAllRowsSecond && (
-              <TableFooter>
-                <TableRow>
-                  <TableCell colSpan={3}>Total</TableCell>
-                  <TableCell className="text-right">$2,500.00</TableCell>
-                </TableRow>
-              </TableFooter>
-            )}
           </Table>
         </div>
       </div>
