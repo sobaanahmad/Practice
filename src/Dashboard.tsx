@@ -3,7 +3,6 @@ import { Banknote, BriefcaseMedical, Calendar, Clipboard } from "lucide-react";
 import {
   Card,
   CardAction,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -18,6 +17,7 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
+  Legend,
   Line,
   LineChart,
   ResponsiveContainer,
@@ -43,12 +43,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/ui/tabs";
 import { Button } from "./components/ui/button";
 
 const chartData = [
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
-  { month: "March", desktop: 237 },
-  { month: "April", desktop: 73 },
-  { month: "May", desktop: 209 },
-  { month: "June", desktop: 214 },
+  { month: "January", desktop: 186, mobile: 40 },
+  { month: "February", desktop: 305, mobile: 200 },
+  { month: "March", desktop: 237, mobile: 110 },
+  { month: "April", desktop: 73, mobile: 99 },
+  { month: "May", desktop: 209, mobile: 200 },
+  { month: "June", desktop: 214, mobile: 150 },
 ];
 
 const invoices = [
@@ -189,12 +189,12 @@ const Dashboard = () => {
 
   return (
     <div className="rounded-lg w-full max-w-6xl p-6 mx-60 flex flex-col gap-1.5">
-      <h1 className="text-2xl font-bold">Dashboard</h1>
-      <h1 className="text-lg text-gray-500">
+      <h1 className="text-[32px] font-[600]">Dashboard</h1>
+      <h1 className="text-[16px] font-[400] text-gray-500">
         Manage your profile settings and information.
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-3 w-full mt-4">
-        <Card className="shadow-bg w-[270px] h-[115px] rounded-lg relative hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer">
+        <Card className="shadow-bg w-[270px] h-[115px] rounded-lg relative hover:shadow-md border-none cursor-pointer">
           <CardHeader>
             <CardTitle className="text-md font-[400] absolute top-3 left-5">
               Total Appointments
@@ -210,7 +210,7 @@ const Dashboard = () => {
             </CardAction>
           </CardHeader>
         </Card>
-        <Card className="shadow-bg w-[270px] h-[115px] rounded-lg relative hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer">
+        <Card className="shadow-bg w-[270px] h-[115px] rounded-lg relative hover:shadow-md border-none cursor-pointer">
           <CardHeader>
             <CardTitle className="text-md font-[400] absolute top-3 left-5">
               Total Prescriptions
@@ -226,7 +226,7 @@ const Dashboard = () => {
             </CardAction>
           </CardHeader>
         </Card>
-        <Card className="shadow-bg w-[270px] h-[115px] rounded-lg relative hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer">
+        <Card className="shadow-bg w-[270px] h-[115px] rounded-lg relative hover:shadow-md border-none cursor-pointer">
           <CardHeader>
             <CardTitle className="text-md font-[400] absolute top-3 left-5">
               Services
@@ -242,7 +242,7 @@ const Dashboard = () => {
             </CardAction>
           </CardHeader>
         </Card>
-        <Card className="shadow-bg w-[270px] h-[115px] rounded-lg relative hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer">
+        <Card className="shadow-bg w-[270px] h-[115px] rounded-lg relative hover:shadow-md border-none cursor-pointer">
           <CardHeader>
             <CardTitle className="text-md font-[400] absolute top-3 left-5">
               Earnings
@@ -260,7 +260,7 @@ const Dashboard = () => {
         </Card>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full mt-4">
-        <Card className="shadow-bg w-[360px] h-[315px] rounded-lg relative flex flex-col">
+        <Card className="shadow-bg w-[360px] h-[315px] rounded-lg relative flex flex-col border-none hover:shadow-md">
           <h2 className="text-[20px] font-[600] absolute top-2 left-4">
             Payments
           </h2>
@@ -269,6 +269,7 @@ const Dashboard = () => {
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData}>
                   <CartesianGrid vertical={false} />
+
                   <XAxis
                     dataKey="month"
                     tickLine={false}
@@ -276,7 +277,7 @@ const Dashboard = () => {
                     axisLine={false}
                     tickFormatter={(value) => value.slice(0, 3)}
                   />
-                  <YAxis />
+                  <YAxis axisLine={false} tickLine={false} />
                   <ChartTooltip
                     cursor={false}
                     content={<ChartTooltipContent hideLabel />}
@@ -287,52 +288,61 @@ const Dashboard = () => {
             </ChartContainer>
           </div>
         </Card>
-        <Card className="shadow-bg w-[360px] h-[315px] rounded-lg relative">
-          <CardHeader>
-            <CardTitle className="text-[20px] font-[600] absolute top-3 left-5">
-              Appointments
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="mt-12">
-            <ChartContainer config={chartConfig}>
-              <LineChart
-                accessibilityLayer
-                data={chartData}
-                margin={{ left: 12, right: 12 }}
-              >
-                <CartesianGrid vertical={false} />
-                <XAxis
-                  dataKey="month"
-                  tickLine={false}
-                  axisLine={false}
-                  tickMargin={8}
-                  tickFormatter={(value) => value.slice(0, 3)}
-                />
-                <ChartTooltip
-                  cursor={false}
-                  content={<ChartTooltipContent />}
-                />
-                <Line
-                  dataKey="desktop"
-                  type="monotone"
-                  stroke="#0E9DD8"
-                  strokeWidth={2}
-                  dot={false}
-                />
-                <Line
-                  dataKey="mobile"
-                  type="monotone"
-                  stroke="var(--color-mobile)"
-                  strokeWidth={2}
-                  dot={false}
-                />
-              </LineChart>
+        <Card className="shadow-bg w-[360px] h-[315px] rounded-lg relative flex flex-col border-none hover:shadow-md">
+          <h2 className="text-[20px] font-[600] absolute top-2 left-4">
+            Appointments
+          </h2>
+          <div className="flex-1 w-full ml-[-20px]">
+            <ChartContainer config={chartConfig} className="w-full h-full mt-5">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={chartData}>
+                  <CartesianGrid stroke="#E5E7EB" strokeDasharray="3 3" />
+                  <XAxis
+                    dataKey="month"
+                    tickLine={false}
+                    tickMargin={10}
+                    axisLine={false}
+                    tickFormatter={(value) => value.slice(0, 3)}
+                  />
+                  <YAxis axisLine={false} tickLine={false} />
+                  <ChartTooltip
+                    cursor={false}
+                    content={<ChartTooltipContent hideLabel />}
+                  />
+                  <Legend
+                    verticalAlign="bottom"
+                    align="center"
+                    iconType="circle"
+                    wrapperStyle={{
+                      display: "flex",
+                      justifyContent: "center",
+                      gap: "24px",
+                    }}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="desktop"
+                    stroke="#3eff3eff"
+                    strokeWidth={2}
+                    dot={false}
+                    name="Desktop"
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="mobile"
+                    stroke="#ffb83dff"
+                    strokeWidth={2}
+                    dot={false}
+                    name="Mobile"
+                  />
+                </LineChart>
+              </ResponsiveContainer>
             </ChartContainer>
-          </CardContent>
+          </div>
         </Card>
-        <Card className="shadow-bg w-[360px] h-[315px] rounded-lg relative overflow-hidden">
+        <Card className="shadow-bg w-[360px] h-[315px] rounded-lg relative overflow-hidden border-none hover:shadow-md">
           <CardHeader>
-            <CardTitle className="text-[20px] font-[600] absolute top-3 left-5">
+            <CardTitle className="text-[20px] font-[600] absolute top-2 left-5">
               Upcoming Appointments
             </CardTitle>
             <Carousel
@@ -350,12 +360,12 @@ const Dashboard = () => {
                   return (
                     <CarouselItem
                       key={index}
-                      className="basis-1/4 md:basis-1/5"
+                      className="basis-1/4 md:basis-1/5 hover:px-0.5"
                     >
                       <div className="p-[1px]">
                         <div className="w-full h-0 pb-[100%] relative">
                           <div className="absolute inset-0 bg-white flex items-center justify-center">
-                            <span className="text-[14px] font-semibold text-center hover:bg-[#0E9DD8] hover:text-white rounded-lg p-2">
+                            <span className="text-[14px] hover:text-[16px] font-semibold text-center hover:bg-[#0E9DD8] hover:text-white rounded-lg hover:rounded-lg p-2">
                               {month} {day}
                             </span>
                           </div>
@@ -368,7 +378,7 @@ const Dashboard = () => {
               <CarouselPrevious className="absolute -left-12 top-1/2 -translate-y-1/2 cursor-pointer rounded-md p-2 " />
               <CarouselNext className="absolute -right-12 top-1/2 -translate-y-1/2 cursor-pointer rounded-md p-2" />
             </Carousel>
-            <div className="mt-3 h-[165px] overflow-y-auto">
+            <div className="mt-3 h-[175px] overflow-y-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -394,13 +404,22 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 w-full mt-4 rounded-lg shadow-bg p-4 relative">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="absolute top-4 left-4">
-            <TabsTrigger value="tab1" className="cursor-pointer">
+            <TabsTrigger
+              value="tab1"
+              className="cursor-pointer text-[12px] font-[400]"
+            >
               Appointment
             </TabsTrigger>
-            <TabsTrigger value="tab2" className="cursor-pointer">
+            <TabsTrigger
+              value="tab2"
+              className="cursor-pointer text-[12px] font-[400]"
+            >
               Prescriptions
             </TabsTrigger>
-            <TabsTrigger value="tab3" className="cursor-pointer">
+            <TabsTrigger
+              value="tab3"
+              className="cursor-pointer text-[12px] font-[400]"
+            >
               Patients
             </TabsTrigger>
           </TabsList>

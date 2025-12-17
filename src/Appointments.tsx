@@ -1254,34 +1254,34 @@ const Appointments = () => {
             </ButtonGroup>
             <ButtonGroup>
               <Button
-                className="rounded-sm w-26 py-5 bg-white border text-[#5B616E] cursor-pointer"
+                className="rounded-sm w-26 py-5 bg-white border text-[#5B616E] text-[16px] font-[400] cursor-pointer"
                 variant="secondary"
               >
-                <PlusIcon />
+                <PlusIcon className="mt-0.5" />
                 Service
               </Button>
             </ButtonGroup>
             <ButtonGroup>
               <Button
-                className="rounded-sm w-30 py-5 bg-white border text-[#5B616E] cursor-pointer"
+                className="rounded-sm w-30 py-5 bg-white border text-[#5B616E] text-[16px] font-[400] cursor-pointer"
                 variant="secondary"
               >
-                <PlusIcon />
+                <PlusIcon className="mt-0.5" />
                 Condition
               </Button>
             </ButtonGroup>
             <ButtonGroup>
               <Button
-                className="rounded-sm w-26 py-5 bg-white border text-[#5B616E] cursor-pointer"
+                className="rounded-sm w-26 py-5 bg-white border text-[#5B616E] text-[16px] font-[400] cursor-pointer"
                 variant="secondary"
               >
-                <PlusIcon />
+                <PlusIcon className="mt-0.5" />
                 Status
               </Button>
             </ButtonGroup>
             <ButtonGroup className="ml-auto">
               <Button
-                className="rounded-sm w-20 py-5 bg-white border text-[#5B616E] cursor-pointer"
+                className="rounded-sm w-23 py-5 bg-white border text-[#5B616E] text-[16px] font-[400] cursor-pointer"
                 variant="secondary"
               >
                 <ListFilter />
@@ -1289,7 +1289,7 @@ const Appointments = () => {
               </Button>
             </ButtonGroup>
           </div>
-          <div className="shadow-bg rounded-xl mt-2">
+          <div className="shadow-bg rounded-xl mt-2 pl-2 py-2 pr-2">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -1379,7 +1379,11 @@ const Appointments = () => {
                   <PaginationItem>
                     <Button
                       onClick={() => setCurrentPage(1)}
-                      className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 text-black cursor-pointer"
+                      className={`px-3 py-1 rounded cursor-pointer ${
+                        currentPage === 1
+                          ? "bg-gray-200 text-[#9E9E9E] hover:bg-gray-200"
+                          : "bg-gray-200 text-black hover:bg-gray-300"
+                      }`}
                     >
                       <img
                         className="h-2 w-3"
@@ -1390,14 +1394,28 @@ const Appointments = () => {
                   </PaginationItem>
                   <PaginationItem>
                     <PaginationPrevious
-                      className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 cursor-pointer"
-                      onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+                      isDisabled={currentPage === 1}
+                      className={`px-3 py-1 rounded cursor-pointer ${
+                        currentPage === 1
+                          ? "bg-gray-200 hover:bg-gray-200"
+                          : "bg-gray-200 hover:bg-gray-300"
+                      }`}
+                      onClick={() =>
+                        currentPage > 1 &&
+                        setCurrentPage((p) => Math.max(p - 1, 1))
+                      }
                     />
                   </PaginationItem>
                   <PaginationItem>
                     <PaginationNext
-                      className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 cursor-pointer"
+                      isDisabled={currentPage === totalPages}
+                      className={`px-3 py-1 rounded cursor-pointer ${
+                        currentPage === totalPages
+                          ? "bg-gray-200 hover:bg-gray-200"
+                          : "bg-gray-200 hover:bg-gray-300"
+                      }`}
                       onClick={() =>
+                        currentPage < totalPages &&
                         setCurrentPage((p) => Math.min(p + 1, totalPages))
                       }
                     />
@@ -1405,7 +1423,11 @@ const Appointments = () => {
                   <PaginationItem>
                     <Button
                       onClick={() => setCurrentPage(totalPages)}
-                      className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 text-black cursor-pointer"
+                      className={`px-3 py-1 rounded cursor-pointer ${
+                        currentPage === totalPages
+                          ? "bg-gray-200 text-[#9E9E9E] hover:bg-gray-200"
+                          : "bg-gray-200 text-black hover:bg-gray-300"
+                      }`}
                     >
                       <img
                         className="w-3 h-2"
@@ -1421,56 +1443,63 @@ const Appointments = () => {
         </>
       )}
       {selectedInvoice && (
-        <div className="w-full shadow-bg rounded-xl mt-2 flex flex-wrap p-5 relative gap-20">
-          <div className="flex flex-col items-start m-2">
-            <h1 className="text-[12px] text-[#9E9E9E] font-[400]">Appt. ID</h1>
-            <h2 className="text-[14px] text-black font-[400]">346346</h2>
+        <div className="w-full shadow-bg rounded-xl mt-2 p-5 relative gap-0 flex flex-col">
+          <div className="flex flex-wrap gap-35 w-full">
+            <div className="flex flex-col items-start m-2">
+              <h1 className="text-[12px] text-[#9E9E9E] font-[400]">
+                Appt. ID
+              </h1>
+              <h2 className="text-[14px] text-black font-[400]">346346</h2>
+            </div>
+            <div className="flex flex-col items-start m-2">
+              <h1 className="text-[12px] text-[#9E9E9E] font-[400]">Service</h1>
+              <h2 className="text-[14px] text-black font-[400]">Urgent Care</h2>
+            </div>
+            <div className="flex flex-col items-start m-2">
+              <h1 className="text-[12px] text-[#9E9E9E] font-[400]">
+                Condition
+              </h1>
+              <h2 className="text-[14px] text-black font-[400]">Cold & Flu</h2>
+            </div>
+            <div className="flex flex-col items-start m-2">
+              <h1 className="text-[12px] text-[#9E9E9E] font-[400]">
+                Appt. Type
+              </h1>
+              <h2 className="text-[14px] text-black font-[400]">In-Person</h2>
+            </div>
+            <div className="flex flex-col items-start m-2">
+              <h1 className="text-[12px] text-[#9E9E9E] font-[400]">
+                Appt. For
+              </h1>
+              <h2 className="text-[14px] text-black font-[400]">Adult</h2>
+            </div>
           </div>
-
-          <div className="flex flex-col items-start m-2">
-            <h1 className="text-[12px] text-[#9E9E9E] font-[400]">Service</h1>
-            <h2 className="text-[14px] text-black font-[400]">Urgent Care</h2>
-          </div>
-
-          <div className="flex flex-col items-start m-2">
-            <h1 className="text-[12px] text-[#9E9E9E] font-[400]">Condition</h1>
-            <h2 className="text-[14px] text-black font-[400]">Cough & Fever</h2>
-          </div>
-
-          <div className="flex flex-col items-start m-2">
-            <h1 className="text-[12px] text-[#9E9E9E] font-[400]">
-              Appt. Type
-            </h1>
-            <h2 className="text-[14px] text-black font-[400]">In-Person</h2>
-          </div>
-
-          <div className="flex flex-col items-start m-2">
-            <h1 className="text-[12px] text-[#9E9E9E] font-[400]">Appt. For</h1>
-            <h2 className="text-[14px] text-black font-[400]">Adult</h2>
-          </div>
-
-          <div className="flex flex-col items-start m-2">
-            <h1 className="text-[12px] text-[#9E9E9E] font-[400]">
-              Appt. Date
-            </h1>
-            <h2 className="text-[14px] text-black font-[400]">Aug 15, 2025</h2>
-          </div>
-
-          <div className="flex flex-col items-start m-2">
-            <h1 className="text-[12px] text-[#9E9E9E] font-[400]">
-              Appt. Time
-            </h1>
-            <h2 className="text-[14px] text-black font-[400]">05:00 PM</h2>
-          </div>
-
-          <div className="flex flex-col items-start m-2">
-            <h1 className="text-[12px] text-[#9E9E9E] font-[400]">Location</h1>
-            <h2 className="text-[14px] text-black font-[400]">
-              4517 Washington Ave. Manchester, Kentucky 39495
-            </h2>
+          <div className="flex flex-wrap gap-26 w-full mt-4">
+            <div className="flex flex-col items-start m-2">
+              <h1 className="text-[12px] text-[#9E9E9E] font-[400]">
+                Appt. Date
+              </h1>
+              <h2 className="text-[14px] text-black font-[400]">
+                Nov 22, 2024
+              </h2>
+            </div>
+            <div className="flex flex-col items-start m-2">
+              <h1 className="text-[12px] text-[#9E9E9E] font-[400]">
+                Appt. Time
+              </h1>
+              <h2 className="text-[14px] text-black font-[400]">05:00 PM</h2>
+            </div>
+            <div className="flex flex-col items-start m-2 flex-1 min-w-[200px] ml-16">
+              <h1 className="text-[12px] text-[#9E9E9E] font-[400]">
+                Location
+              </h1>
+              <h2 className="text-[14px] text-black font-[400]">
+                4517 Washington Ave. Manchester, Kentucky 39495
+              </h2>
+            </div>
           </div>
           <Button
-            className="absolute shadow-bg top-44 right-7 text-white bg-[#0E9DD8] hover:bg-[#0E9DD8] px-4 py-2 rounded-lg cursor-pointer text-md font-[600]"
+            className="absolute shadow-bg top-44 right-0 text-white bg-[#0E9DD8] hover:bg-[#0E9DD8] px-4 py-2 rounded-lg cursor-pointer text-md font-[600]"
             onClick={() => setSelectedInvoice(null)}
           >
             Close
