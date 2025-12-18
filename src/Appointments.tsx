@@ -1,4 +1,6 @@
 import {
+  ArrowLeftToLine,
+  ArrowRightToLine,
   Calendar,
   CheckCircle,
   Clock,
@@ -1385,11 +1387,7 @@ const Appointments = () => {
                           : "bg-gray-200 text-black hover:bg-gray-300"
                       }`}
                     >
-                      <img
-                        className="h-2 w-3"
-                        src="public/doubleback.png"
-                        alt="doubleback"
-                      />
+                      <ArrowLeftToLine />
                     </Button>
                   </PaginationItem>
                   <PaginationItem>
@@ -1429,11 +1427,7 @@ const Appointments = () => {
                           : "bg-gray-200 text-black hover:bg-gray-300"
                       }`}
                     >
-                      <img
-                        className="w-3 h-2"
-                        src="public/doublenext.png"
-                        alt="doublenext"
-                      />
+                      <ArrowRightToLine />
                     </Button>
                   </PaginationItem>
                 </PaginationContent>
