@@ -345,6 +345,7 @@ const Dashboard = () => {
             <CardTitle className="text-[20px] font-[600] absolute top-2 left-5">
               Upcoming Appointments
             </CardTitle>
+
             <Carousel
               opts={{ align: "start" }}
               className="w-full max-w-[230px] mt-8 relative ml-10 cursor-pointer"
@@ -357,17 +358,19 @@ const Dashboard = () => {
                   const month = date.toLocaleString("default", {
                     month: "short",
                   });
+
                   return (
                     <CarouselItem
                       key={index}
-                      className="basis-1/4 md:basis-1/5 hover:px-0.5"
+                      className="basis-1/4 md:basis-1/5 px-1"
                     >
-                      <div className="p-[1px]">
-                        <div className="w-full h-0 pb-[100%] relative">
-                          <div className="absolute inset-0 bg-white flex items-center justify-center">
-                            <span className="text-[14px] hover:text-[16px] font-semibold text-center hover:bg-[#0E9DD8] hover:text-white rounded-lg hover:rounded-lg p-2">
-                              {month} {day}
+                      <div className="w-full h-0 pb-[100%] relative">
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="flex flex-col h-10 w-10 items-center justify-center rounded-lg text-center font-semibold transition-all duration-200 hover:bg-[#0E9DD8] hover:text-white">
+                            <span className="text-[14px] font-[500]">
+                              {month}
                             </span>
+                            <span className="text-[18px]">{day}</span>
                           </div>
                         </div>
                       </div>
@@ -375,7 +378,7 @@ const Dashboard = () => {
                   );
                 })}
               </CarouselContent>
-              <CarouselPrevious className="absolute -left-12 top-1/2 -translate-y-1/2 cursor-pointer rounded-md p-2 " />
+              <CarouselPrevious className="absolute -left-12 top-1/2 -translate-y-1/2 cursor-pointer rounded-md p-2" />
               <CarouselNext className="absolute -right-12 top-1/2 -translate-y-1/2 cursor-pointer rounded-md p-2" />
             </Carousel>
             <div className="mt-3 h-[175px] overflow-y-auto">
