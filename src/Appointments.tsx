@@ -1,8 +1,8 @@
 import {
-  ArrowLeftToLine,
-  ArrowRightToLine,
   Calendar,
   CheckCircle,
+  ChevronsLeft,
+  ChevronsRight,
   Clock,
   ListFilter,
   MoreVerticalIcon,
@@ -1387,7 +1387,7 @@ const Appointments = () => {
                           : "bg-gray-200 text-black hover:bg-gray-300"
                       }`}
                     >
-                      <ArrowLeftToLine />
+                      <ChevronsLeft />
                     </Button>
                   </PaginationItem>
                   <PaginationItem>
@@ -1427,7 +1427,7 @@ const Appointments = () => {
                           : "bg-gray-200 text-black hover:bg-gray-300"
                       }`}
                     >
-                      <ArrowRightToLine />
+                      <ChevronsRight />
                     </Button>
                   </PaginationItem>
                 </PaginationContent>
